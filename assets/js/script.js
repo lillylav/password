@@ -20,6 +20,18 @@ function randomize(array) {
 var passwordPrompts = function(event) {
   // prompts for the type of password needed
   var length = parseInt(prompt("How many characters would you like your password to be? (Min 8, Max 128)"));
+
+  if (length < 8) {
+    alert("Password's minimum length is 8 characters, try again!");
+    return;
+  } else if (length > 128) {
+    alert("Password's maximum length is 128 characters, try again! ");
+    return;
+  } else if (isNaN(length)===true) {
+    alert("Please enter a number between 8 and 128.");
+    return;
+  };
+
   var hasLowerCase = confirm("Would you like to include lowercase letters?");
   var hasUpperCase = confirm("Would you like to include uppercase letters?");
   var hasNumbers = confirm("Would you like to include numbers?");
@@ -34,52 +46,58 @@ var passwordPrompts = function(event) {
     length: length
   };
 
-  validateLength(userChoices.length);
-  // validateCharacterTypes(userChoices);
-  // validate input for at least 1 character type
-  // after all prompts are answered
-}
+  console.log(userChoices);
 
-var validateLength = function(length) {
-  if (length < 8) {
-    alert("Password's minimum length is 8 characters, try again!");
-    return;
-  } else if (length > 128) {
-    alert("Password's maximum length is 128 characters, try again! ");
-    return;
-  } else if (isNaN(length)===true) {
-    alert("Please enter a number between 8 and 128.");
-    passwordPrompts();
-  }
+  generatePassword(userChoices);
 };
 
-// var validateCharacterTypes = function(choices) {
-//   console.log(choices.hasLowerCase);
-//   if (choices.hasLowerCase || choices.hasUpperCase || choices.hasNumbers || choices.hasSpecialCharacters !== true) {
-//     alert("Please choose at least 1 character type.");
-//     passwordPrompts();
-//   } else {
-//     return;
-//   }
-// }
+// use allowed characters to generate a password
+function generatePassword(userInput) {
+  var possibleCharacters = [];
+  var newPassword = [];
 
+  if (userInput.hasLowerCase || userInput.hasUpperCase || userInput.hasNumbers || userInput.hasSpecialCharacters !== true) {
+    alert("Please choose at least 1 character type.");
+    return;
+  };
+  
+  // check for character types
+  if (userInput.hasLowerCase) {
+    possibleCharacters = possibleCharacters.concat(lower);
+    possibleCharacters.push(randomize(lower));
+  }
 
-// password is generated
-// passsword is then displayed in either an alert of written into the page
+  if (userInput.hasUpperCase) {
+    possibleCharacters = possibleCharacters.concat(upper);
+    possibleCharacters.push(randomize(upper));
+  }
 
+  if (userInput.hasNumbers) {
+    possibleCharacters = possibleCharacters.concat(numbers);
+    possibleCharacters.push(randomize(numbers));
+  }
 
-// // Write password to the #password input
-// function writePassword() {
-//   var password = generatePassword();
-//   var passwordText = document.querySelector("#password");
+  if (userInput.hasSpecialCharacters) {
+    possibleCharacters = possibleCharacters.concat(special);
+    possibleCharacters.push(randomize(special));
+  }
 
-//   passwordText.value = password;
+  // create password of desired legth with randomized characters from allowed types
+  for(var i = 0; i < userInput.length; i++) {
+    var possible = randomize(possibleCharacters);
+    newPassword.push(possible);
+  }
 
-// }
+  writePassword(newPassword.join(''));
+};
+
+// write password to the #password input
+function writePassword(password) {
+  var passwordText = document.querySelector("#password");
+
+  passwordText.value = password;
+};
 
 
 // when "generate password" button is clicked 
 generateBtn.addEventListener("click", passwordPrompts);
-
-// // Add event listener to generate button
-// generateBtn.addEventListener("click", writePassword);
