@@ -13,3 +13,5 @@ Strong passwords are important to business and personal security, using this app
 
 ## Deployed Application
 https://lillylav.github.io/password/
+
+Author: Lilly Leiran
