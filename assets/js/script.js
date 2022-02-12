@@ -56,10 +56,10 @@ function generatePassword(userInput) {
   var possibleCharacters = [];
   var newPassword = [];
 
-  if (userInput.hasLowerCase || userInput.hasUpperCase || userInput.hasNumbers || userInput.hasSpecialCharacters !== true) {
-    alert("Please choose at least 1 character type.");
-    return;
-  };
+  // if (userInput.hasLowerCase || userInput.hasUpperCase || userInput.hasNumbers || userInput.hasSpecialCharacters !== true) {
+  //   alert("Please choose at least 1 character type.");
+  //   return;
+  // };
   
   // check for character types
   if (userInput.hasLowerCase) {
